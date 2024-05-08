@@ -35,7 +35,7 @@ const HelperHeader = () => {
         </Button>
       </div>
       <div className="__tab_switcher flex justify-center items-center gap-1">
-       <small>Current Language :  </small>
+       <small> Language :  </small>
         <Select defaultValue={CurrentLanguage} onValueChange={(value)=>dispatch(updateCurrentLanguage(value as CompilerStateType["currentLanguage"]))}>
           <SelectTrigger className="w-[110px] bg-gray-800 outline-none focus:ring-0">
             <SelectValue  />

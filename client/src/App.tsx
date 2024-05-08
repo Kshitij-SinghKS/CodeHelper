@@ -4,9 +4,12 @@ import Home from "./pages/Home";
 import Compile from "./pages/Compile";
 import NotFound from "./pages/NotFound";
 import Editor from "./pages/Editor";
+import { ThemeProvider } from "@/components/theme-provider"
+
 function App() {
   return (
-    <>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+     <>
       <Header></Header>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -16,7 +19,11 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
-  );
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
+
+
+

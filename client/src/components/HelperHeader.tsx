@@ -1,6 +1,6 @@
 import { Share2Icon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
-import { Save } from "lucide-react";
+import { Save, Loader2} from "lucide-react";
 import axios from "axios";
 import {
   Select,
@@ -13,17 +13,26 @@ import { CompilerStateType, updateCurrentLanguage } from "@/redux/slices/Compile
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { handleError } from "@/utils/handleError";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const HelperHeader = () => {
+  const [saveLoading,setsaveLoading] = useState(false);
+  const navigate = useNavigate();
   const fullCode = useSelector((state:RootState) => state.CompilerSlice.fullCode);
   const handleSaveCode = async()=>{
+    setsaveLoading(true);
      try {
       const response = await axios.post("http://localhost:3000/compiler/save",{
         fullCode : fullCode
       });
       console.log(response.data);
+      navigate(`/compiler/${response.data.url}`, { replace: true });
      } catch (error) {
       handleError(error);
+     }
+     finally{
+       setsaveLoading(false);
      }
   }
   const dispatch = useDispatch();
@@ -35,9 +44,11 @@ const HelperHeader = () => {
           variant="success"
           className="flex justify-center items-center gap-2"
           onClick={handleSaveCode}
+          disabled={saveLoading}
         >
-          <Save size={16} />
-          Save
+         
+          {saveLoading ? <><Loader2 className="animate-spin" />Saving</>: <> <Save size={16} />Save</>}
+          
         </Button>
         <Button
           variant="secondary"

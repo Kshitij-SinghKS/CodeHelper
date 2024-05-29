@@ -14,6 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/compiler" element={<Compile />} />
+        <Route path="/compiler/:urlId" element={<Compile />} />
+      
         <Route path="/editor" element={<Editor />} />
 
         <Route path="*" element={<NotFound />} />

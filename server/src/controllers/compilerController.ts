@@ -1,8 +1,16 @@
 import { Request, Response } from 'express';
+import { Code } from '../models/Code';
+
 export const saveCode = async (req: Request, res: Response) => {
-try {
-    
-} catch (error) {
-   res.status(500).send({message:"Error in saving the code",error}) 
-}
+  
+   const { fullCode } = req.body;
+
+   try {
+      const newCode = await Code.create({
+         fullCode: fullCode
+      });
+      return res.status(201).send({ message: "Code saved successfully", newCode });
+   } catch (error) {
+      res.status(500).send({ message: "Error in saving the code", error });
+   }
 };

@@ -1,6 +1,7 @@
 import { Share2Icon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import { Save } from "lucide-react";
+import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -11,8 +12,20 @@ import {
 import { CompilerStateType, updateCurrentLanguage } from "@/redux/slices/CompilerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { handleError } from "@/utils/handleError";
 
 const HelperHeader = () => {
+  const fullCode = useSelector((state:RootState) => state.CompilerSlice.fullCode);
+  const handleSaveCode = async()=>{
+     try {
+      const response = await axios.post("http://localhost:3000/compiler/save",{
+        fullCode : fullCode
+      });
+      console.log(response.data);
+     } catch (error) {
+      handleError(error);
+     }
+  }
   const dispatch = useDispatch();
   const CurrentLanguage = useSelector((state:RootState) => state.CompilerSlice.currentLanguage);
   return (
@@ -21,6 +34,7 @@ const HelperHeader = () => {
         <Button
           variant="success"
           className="flex justify-center items-center gap-2"
+          onClick={handleSaveCode}
         >
           <Save size={16} />
           Save
